@@ -1,15 +1,59 @@
 {
   "name": "lookup_order",
+  "version": "1.0.0-day1-freeze",
   "description": "Find an order by ID or customer reference.",
   "input_schema": {
     "type": "object",
     "properties": {
       "identifier": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "required": [
       "identifier"
-    ]
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "const": "lookup_order"
+      },
+      "order": {
+        "type": "object",
+        "properties": {
+          "order_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "shipping_status": {
+            "type": "string"
+          },
+          "total_amount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "order_id",
+          "status",
+          "shipping_status",
+          "total_amount"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "tool",
+      "order"
+    ],
+    "additionalProperties": false
+  },
+  "error_schema": {
+    "$ref": "shared_error_envelope_v1"
   }
 }

@@ -1,15 +1,58 @@
 {
   "name": "search_kb",
+  "version": "1.0.0-day1-freeze",
   "description": "Search the support knowledge base for policy or process information.",
   "input_schema": {
     "type": "object",
     "properties": {
       "query": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "required": [
       "query"
-    ]
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "const": "search_kb"
+      },
+      "hits": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "article_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "snippet": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "article_id",
+            "title",
+            "snippet"
+          ],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": [
+      "tool",
+      "hits"
+    ],
+    "additionalProperties": false
+  },
+  "error_schema": {
+    "$ref": "shared_error_envelope_v1"
   }
 }

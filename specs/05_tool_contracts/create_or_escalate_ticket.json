@@ -1,10 +1,45 @@
 {
   "name": "create_or_escalate_ticket",
+  "version": "1.0.0-day1-freeze",
   "description": "Create or escalate a support ticket when the model lacks verified information.",
   "input_schema": {
     "type": "object",
     "properties": {
       "reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "priority": {
+        "type": "string",
+        "enum": [
+          "low",
+          "medium",
+          "high"
+        ]
+      },
+      "summary": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": [
+      "reason",
+      "priority",
+      "summary"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "const": "create_or_escalate_ticket"
+      },
+      "ticket_id": {
+        "type": "string"
+      },
+      "status": {
         "type": "string"
       },
       "priority": {
@@ -12,12 +47,22 @@
       },
       "summary": {
         "type": "string"
+      },
+      "reason": {
+        "type": "string"
       }
     },
     "required": [
-      "reason",
+      "tool",
+      "ticket_id",
+      "status",
       "priority",
-      "summary"
-    ]
+      "summary",
+      "reason"
+    ],
+    "additionalProperties": false
+  },
+  "error_schema": {
+    "$ref": "shared_error_envelope_v1"
   }
 }

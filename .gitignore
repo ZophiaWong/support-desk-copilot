@@ -1,0 +1,57 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.pyre/
+.tox/
+.nox/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+dev/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test and coverage artifacts
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Logs and local runtime files
+*.log
+*.pid
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Project-generated local data (keep sample_kb/ and docs/specs data)
+data/*.csv
+
+# SQLite and local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Agent Skills
+.claude/skills/
+.codex/skills

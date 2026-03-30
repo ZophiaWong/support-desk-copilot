@@ -1,0 +1,60 @@
+schema: spec-driven
+
+context: |
+  Project: SupportDesk Copilot
+  Goal: Build a simulated e-commerce support copilot with deterministic tool usage,
+  approval gating for sensitive actions, and reproducible offline evaluation.
+
+  Tech stack:
+  - Python 3.12
+  - FastAPI backend
+  - Pydantic schemas
+  - Local CSV + markdown KB for MVP data
+
+  Repository conventions:
+  - Runtime app code lives in app/
+  - Scripts live in scripts/
+  - Tests live in tests/
+  - Product and engineering specs live in specs/
+  - Architecture and resume notes live in docs/
+
+  Core workflow requirements:
+  - Route user requests to one of 5 core tools:
+    1) search_kb
+    2) lookup_customer
+    3) lookup_order
+    4) propose_action
+    5) create_or_escalate_ticket
+  - Sensitive actions (refund/address/cancel) must not be directly executed by model output.
+  - Responses should include evidence/citations and tool traces when applicable.
+  - Keep behavior reproducible with offline eval cases from specs/06_eval_cases.jsonl.
+
+rules:
+  proposal:
+    - Keep proposals concrete and implementation-oriented for this repo.
+    - Explicitly call out approval-gate and safety implications for any action workflow changes.
+    - Include non-goals when proposing larger scope changes.
+    - Reference affected files and directories using repo-relative paths.
+
+  spec:
+    - Align with existing docs in specs/01_prd.md and specs/02_user_stories.md.
+    - Keep tool behavior consistent with specs/05_tool_contracts/*.json.
+    - Define expected inputs/outputs and failure modes for each changed behavior.
+    - Add measurable success criteria tied to specs/08_metrics.md.
+
+  tasks:
+    - Break work into small, testable tasks with clear acceptance criteria.
+    - Include code, tests, and docs updates in the task list when behavior changes.
+    - Prefer incremental changes that preserve current API shape unless explicitly requested.
+    - Call out any data seeding or eval commands needed for verification.
+
+  implementation:
+    - Do not bypass tool calls with fabricated data when a tool exists.
+    - Keep routing logic deterministic and auditable.
+    - Preserve backward compatibility for app/main.py chat response schema.
+    - Avoid introducing external infrastructure dependencies for MVP-only changes.
+
+  tests:
+    - Add or update tests in tests/ for any modified routing or tool behavior.
+    - Cover at least one happy path and one guardrail/failure path per changed feature.
+    - Ensure eval-related changes remain compatible with scripts/run_eval.py input format.

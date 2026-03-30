@@ -1,15 +1,58 @@
 {
   "name": "lookup_customer",
+  "version": "1.0.0-day1-freeze",
   "description": "Find a customer by ID, email, or phone.",
   "input_schema": {
     "type": "object",
     "properties": {
       "identifier": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       }
     },
     "required": [
       "identifier"
-    ]
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "const": "lookup_customer"
+      },
+      "customer": {
+        "type": "object",
+        "properties": {
+          "customer_id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "customer_id",
+          "email",
+          "tags"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "tool",
+      "customer"
+    ],
+    "additionalProperties": false
+  },
+  "error_schema": {
+    "$ref": "shared_error_envelope_v1"
   }
 }

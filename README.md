@@ -78,6 +78,24 @@ support-desk-copilot/
 4. `propose_action`
 5. `create_or_escalate_ticket`
 
+## Day 1 frozen artifacts
+
+- Scope freeze baseline: `specs/10_day1_scope_freeze.md`
+- Risky action inventory: `specs/11_risky_actions.md`
+- Verification checklist: `specs/12_day1_verification.md`
+- Tool contracts: `specs/05_tool_contracts/*.json`
+- Golden demo flows: `specs/07_demo_script.md`
+- Eval seed set (20): `specs/06_eval_cases.jsonl`
+- Implementation notes and verification outputs: `docs/day1_implementation_notes.md`
+
+Verification commands:
+
+```bash
+python scripts/validate_day1_artifacts.py
+python scripts/run_eval.py --validate-only
+PYTHONPATH=. pytest -q
+```
+
 ## What makes this more credible than a toy demo
 
 - 敏感动作不直接执行，只返回 `needs_human_approval`

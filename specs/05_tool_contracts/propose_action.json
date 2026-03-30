@@ -1,11 +1,17 @@
 {
   "name": "propose_action",
+  "version": "1.0.0-day1-freeze",
   "description": "Create a human-review proposal for a sensitive support action.",
   "input_schema": {
     "type": "object",
     "properties": {
       "action_type": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "refund_request",
+          "address_change",
+          "cancel_order"
+        ]
       },
       "payload": {
         "type": "object"
@@ -14,6 +20,40 @@
     "required": [
       "action_type",
       "payload"
-    ]
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "tool": {
+        "type": "string",
+        "const": "propose_action"
+      },
+      "approval_id": {
+        "type": "string"
+      },
+      "action_type": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string",
+        "const": "needs_human_approval"
+      },
+      "payload": {
+        "type": "object"
+      }
+    },
+    "required": [
+      "tool",
+      "approval_id",
+      "action_type",
+      "status",
+      "payload"
+    ],
+    "additionalProperties": false
+  },
+  "error_schema": {
+    "$ref": "shared_error_envelope_v1"
   }
 }
