@@ -1,0 +1,5 @@
+{"id": "SP-001", "input": "What is the refund window for unopened items?", "expected_route": "faq", "expected_tools": ["search_kb"], "requires_citation": true, "requires_human_approval": false}
+{"id": "SP-002", "input": "Where is order ord_2001 right now?", "expected_route": "order_lookup", "expected_tools": ["lookup_order"], "requires_citation": false, "requires_human_approval": false}
+{"id": "SP-003", "input": "Please refund my shipped order ord_2001.", "expected_route": "action_request", "expected_tools": ["lookup_order", "propose_action"], "requires_citation": false, "requires_human_approval": true}
+{"id": "SP-004", "input": "Change my address for the package that already shipped.", "expected_route": "action_request", "expected_tools": ["lookup_order", "propose_action"], "requires_citation": false, "requires_human_approval": true}
+{"id": "SP-005", "input": "I forgot my order number but my package never arrived.", "expected_route": "handoff", "expected_tools": ["create_or_escalate_ticket"], "requires_citation": false, "requires_human_approval": false}

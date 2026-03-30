@@ -1,0 +1,23 @@
+{
+  "name": "create_or_escalate_ticket",
+  "description": "Create or escalate a support ticket when the model lacks verified information.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "reason": {
+        "type": "string"
+      },
+      "priority": {
+        "type": "string"
+      },
+      "summary": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "reason",
+      "priority",
+      "summary"
+    ]
+  }
+}

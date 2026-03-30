@@ -1,0 +1,15 @@
+{
+  "name": "search_kb",
+  "description": "Search the support knowledge base for policy or process information.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "query"
+    ]
+  }
+}

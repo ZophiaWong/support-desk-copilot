@@ -1,0 +1,19 @@
+{
+  "name": "propose_action",
+  "description": "Create a human-review proposal for a sensitive support action.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "action_type": {
+        "type": "string"
+      },
+      "payload": {
+        "type": "object"
+      }
+    },
+    "required": [
+      "action_type",
+      "payload"
+    ]
+  }
+}

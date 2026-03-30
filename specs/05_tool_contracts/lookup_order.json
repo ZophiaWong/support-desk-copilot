@@ -1,0 +1,15 @@
+{
+  "name": "lookup_order",
+  "description": "Find an order by ID or customer reference.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "identifier": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "identifier"
+    ]
+  }
+}

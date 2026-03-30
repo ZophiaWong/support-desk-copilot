@@ -1,0 +1,15 @@
+{
+  "name": "lookup_customer",
+  "description": "Find a customer by ID, email, or phone.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "identifier": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "identifier"
+    ]
+  }
+}
