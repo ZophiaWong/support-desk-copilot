@@ -1,58 +1,46 @@
 from typing import Any
 
+from app import data_access
+from app.exceptions import ToolValidationError
+
 
 def search_kb(query: str) -> dict[str, Any]:
-    # TODO: replace with real vector/BM25 retrieval
     return {
         "tool": "search_kb",
-        "hits": [
-            {"article_id": "kb_001", "title": "Refund Policy", "snippet": "Unopened items can be refunded within 14 days."}
-        ]
+        "hits": data_access.search_kb(query),
     }
 
 
 def lookup_customer(identifier: str) -> dict[str, Any]:
-    # TODO: replace with DB lookup
     return {
         "tool": "lookup_customer",
-        "customer": {
-            "customer_id": "cust_1001",
-            "email": "alice@example.com",
-            "tags": ["vip"],
-        },
+        "customer": data_access.find_customer(identifier),
     }
 
 
 def lookup_order(identifier: str) -> dict[str, Any]:
-    # TODO: replace with DB lookup
+    order = data_access.find_order(identifier)
+    if isinstance(order, list):
+        raise ToolValidationError(
+            "lookup_order",
+            f"Identifier '{identifier}' matched multiple orders; provide an order_id instead.",
+        )
     return {
         "tool": "lookup_order",
         "order": {
-            "order_id": "ord_2001",
-            "status": "shipped",
-            "shipping_status": "in_transit",
-            "total_amount": 129.00,
+            "order_id": order["order_id"],
+            "status": order["status"],
+            "shipping_status": order["shipping_status"],
+            "total_amount": order["total_amount"],
         },
     }
 
 
 def propose_action(action_type: str, payload: dict[str, Any]) -> dict[str, Any]:
-    # All sensitive actions become proposals, never direct execution
-    return {
-        "tool": "propose_action",
-        "approval_id": "apr_3001",
-        "action_type": action_type,
-        "status": "needs_human_approval",
-        "payload": payload,
-    }
+    proposal = data_access.store_proposal(action_type, payload)
+    return {"tool": "propose_action", **proposal}
 
 
 def create_or_escalate_ticket(reason: str, priority: str, summary: str) -> dict[str, Any]:
-    return {
-        "tool": "create_or_escalate_ticket",
-        "ticket_id": "tkt_4001",
-        "status": "escalated",
-        "priority": priority,
-        "summary": summary,
-        "reason": reason,
-    }
+    ticket = data_access.store_ticket(reason, priority, summary)
+    return {"tool": "create_or_escalate_ticket", **ticket}
