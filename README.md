@@ -33,6 +33,8 @@ support-desk-copilot/
   app/
     main.py
     config.py
+    llm.py
+    persistence.py
     schemas.py
     tools.py
     orchestrator.py
@@ -113,6 +115,59 @@ pip install -r requirements.txt
 python scripts/seed_mock_data.py
 uvicorn app.main:app --reload
 ```
+
+Provider/runtime configuration lives in `.env`:
+
+```bash
+MODEL_PROVIDER=openai   # openai | anthropic | ollama
+MODEL_NAME=gpt-4.1-mini
+MODEL_TEMPERATURE=0
+MAX_LLM_TURNS=3
+MAX_TOOL_CALLS=3
+SQLITE_DB_PATH=./support_desk.db
+ENABLE_JUDGE=true
+```
+
+The current provider layer is application-controlled and deterministic for local development: extraction, planning, composition, and judge evaluation run through one adapter interface, while business tools remain Python-owned.
+
+## Orchestration flow
+
+```text
+/chat request
+  -> load session from SQLite
+  -> extract route + entities
+  -> validate / apply policy gates
+  -> bounded planning loop
+  -> call frozen tools
+  -> compose response
+  -> persist traces / approvals / tickets
+  -> optional judge result
+```
+
+Safety rules:
+- sensitive actions become `propose_action` requests, never direct execution
+- ambiguous extraction fails closed to handoff
+- FAQ answers carry KB citations when evidence is found
+- approval reviews are stored separately from customer message history
+
+## Day 4 verification
+
+Run these checks locally after seeding data:
+
+```bash
+python scripts/seed_mock_data.py
+python scripts/run_eval.py --validate-only
+pytest -q
+```
+
+The orchestration tests cover:
+- FAQ citation flow
+- verified order lookup flow
+- approval-gated action flow
+- ambiguous extraction handoff
+- bounded-loop fallback
+- approval review persistence
+- judge failure reporting
 
 ## Resume bullets (editable)
 
